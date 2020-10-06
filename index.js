@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const ObjectId= require('mongodb').ObjectId;
 const cors = require('cors');
 const MongoClient = require('mongodb').MongoClient;
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.ynnkd.mongodb.net/Volunteer?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.ynnkd.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const port = 4141
@@ -16,13 +16,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 
-app.get('/registration', (req, res) => {
-    
+app.get('/', (req, res) => {
+    res.send("Hello from db its working ")
 })
 
 
 client.connect(err => {
-    const registration = client.db("Volunteer").collection("registrated");
+    const registration = client.db(`${process.env.DB_USER}`).collection(`${process.env.DB_NAME}`);
 
 
 app.get('/userId', (req, res)=>{
